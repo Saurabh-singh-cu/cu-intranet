@@ -1,7 +1,7 @@
 
 .form-container-form {
-    max-width: 70vw;
-    min-width: 70vw;
+    max-width: 60vw;
+    min-width: 60vw;
     margin: 0 auto;
     padding: 20px;
     color: black;
@@ -63,7 +63,7 @@
   .labelName {
     display: block;
     margin-bottom: 5px;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 14px;
   }
   
@@ -239,4 +239,152 @@
 }
 .add-button, .remove-button{
     font-size: 20px;
+}
+/* entity guide card custom  */
+.entity-card{
+  padding: 20px;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  background-color:#dadee1;
+
+}
+.sider-card {
+  width: 100%;
+  max-width: 400px;
+  min-height: 300px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 5%;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4%;
+}
+
+.llogo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.brain-icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.5em;
+  color: #8e44ad;
+}
+
+.options-button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  color: #666;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 2%;
+  margin-bottom: 4%;
+}
+
+
+
+
+
+.h2tag{
+  font-size: 1.2em;
+  margin-bottom: 2%;
+}
+
+.ptag {
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: #333;
+  margin-bottom: 4%;
+  flex-grow: 1;
+}
+
+.related-questions {
+  margin-top: auto;
+}
+
+.related-questions h3 {
+  font-size: 1em;
+  margin-bottom: 2%;
+}
+
+.related-questions ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.related-questions li {
+  font-size: 0.9em;
+  color: #333;
+}
+
+.related-questions li::before {
+  content: "•";
+  color: #8e44ad;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+@media (max-width: 600px) {
+  .sider-card {
+    padding: 4%;
+  }
+
+  .llogo {
+    font-size: 1em;
+  }
+
+  .button {
+    font-size: 0.8em;
+  }
+
+  .h2tag {
+    font-size: 1.1em;
+  }
+
+  .ptag, .related-questions li {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 400px) {
+  .sider-card {
+    padding: 3%;
+  }
+
+  .llogo {
+    font-size: 0.9em;
+  }
+
+  .button {
+    font-size: 0.7em;
+  }
+
+  .h2tag {
+    font-size: 1em;
+  }
+
+  .ptag, .related-questions li {
+    font-size: 0.7em;
+  }
+}
+.form-scroller{
+  overflow: scroll;
+  height: 68vh;
 }

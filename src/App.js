@@ -13,6 +13,7 @@ import Setting from "./pages/Setting";
 import Header from "./components/Header";
 import AcademicAffairsForm from "./components/form/AcademicAffairsForm";
 import NavBar from "./pages/NavBar";
+import Login from "./pages/Login";
 function App() {
   return (
     <Router>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           <Route path="/settings" element={<Setting />} />
           <Route path="/af" element={<AcademicAffairsForm />} />
+          <Route path="/login" element={<Login />} />
 
           <Route path="*" element={<> not found</>} />
         </Routes>

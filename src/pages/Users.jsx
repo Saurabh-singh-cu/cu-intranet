@@ -1,20 +1,18 @@
-
-
-import React, { useState, useEffect } from 'react';
-import { Modal, notification } from 'antd';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Modal, notification, Spin } from "antd";
+import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { Drawer, Button } from 'antd';
+import { Drawer, Button } from "antd";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
 import { BiSolidEdit } from "react-icons/bi";
 
-
-import './Users.css';
+import "./Users.css";
+import { Loader } from "lucide-react";
 
 const MyFormComponent = () => {
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
   const [inputData, setInputData] = useState({});
   const [tableData, setTableData] = useState([]);
   const [entityData, setEntityData] = useState([]);
@@ -30,46 +28,44 @@ const MyFormComponent = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [loading, setloading] = useState(false);
 
   const apiUrls = {
-    'entity-types': 'http://172.17.2.77:8080/intranetapp/entity-types/',
-    'roles_permissions': 'http://172.17.2.77:8080/intranetapp/roles_permissions/',
-    'roles': 'http://172.17.2.77:8080/intranetapp/roles/',
-    'departments': 'http://172.17.2.77:8080/intranetapp/departments/',
-    'sessions': 'http://172.17.2.77:8080/intranetapp/sessions/',
-    'genders': 'http://172.17.2.77:8080/intranetapp/genders/',
-    'title': 'http://172.17.2.77:8080/intranetapp/title/',
-    'designation': 'http://172.17.2.77:8080/intranetapp/designation/',
-    'user_create': 'http://172.17.2.77:8080/intranetapp/user_create/',
-    'user_table': 'http://172.17.2.77:8080/intranetapp/user_table/',
+    "entity-types": "http://172.17.2.77:8080/intranetapp/entity-types/",
+    roles_permissions: "http://172.17.2.77:8080/intranetapp/roles_permissions/",
+    roles: "http://172.17.2.77:8080/intranetapp/roles/",
+    departments: "http://172.17.2.77:8080/intranetapp/departments/",
+    sessions: "http://172.17.2.77:8080/intranetapp/sessions/",
+    genders: "http://172.17.2.77:8080/intranetapp/genders/",
+    title: "http://172.17.2.77:8080/intranetapp/title/",
+    designation: "http://172.17.2.77:8080/intranetapp/designation/",
+    user_create: "http://172.17.2.77:8080/intranetapp/user_create/",
+    user_table: "http://172.17.2.77:8080/intranetapp/user_table/",
   };
 
-
-
   useEffect(() => {
     setInputData({});
 
-    if (selectedValue === 'roles_permissions') {
+    if (selectedValue === "roles_permissions") {
       fetchEntityData();
       fetchPermissionData();
-    } else if (selectedValue === 'roles') {
+    } else if (selectedValue === "roles") {
       fetchPermissionData();
     }
   }, [selectedValue]);
   useEffect(() => {
     setInputData({});
 
-    if (selectedValue === 'roles') {
+    if (selectedValue === "roles") {
       fetchEntityData();
       fetchPermissionData();
-    } else if (selectedValue === 'roles') {
+    } else if (selectedValue === "roles") {
       fetchPermissionData();
     }
   }, [selectedValue]);
 
   useEffect(() => {
-    if (selectedValue === 'user_create') {
+    if (selectedValue === "user_create") {
       fetchRoles();
       fetchDesignations();
       fetchTitles();
@@ -80,81 +76,86 @@ const MyFormComponent = () => {
   }, [selectedValue]);
 
   const fetchRoles = async () => {
+    setloading(true);
     try {
-      const response = await axios.get(apiUrls['roles']);
+      const response = await axios.get(apiUrls["roles"]);
       setRoles(response.data);
       console.log(response.data, "role");
+     
     } catch (error) {
-      console.error('Error fetching roles:', error);
+     
+      console.error("Error fetching roles:", error);
+    }
+    finally{
+      setloading(false)
     }
   };
 
   const fetchDesignations = async () => {
     try {
-      const response = await axios.get(apiUrls['designation']);
+      const response = await axios.get(apiUrls["designation"]);
       setDesignations(response.data);
       console.log(response.data, "desig");
     } catch (error) {
-      console.error('Error fetching designations:', error);
+      console.error("Error fetching designations:", error);
     }
   };
 
   const fetchTitles = async () => {
     try {
-      const response = await axios.get(apiUrls['title']);
+      const response = await axios.get(apiUrls["title"]);
       setTitles(response.data);
       console.log(response.data, "title");
     } catch (error) {
-      console.error('Error fetching titles:', error);
+      console.error("Error fetching titles:", error);
     }
   };
 
   const fetchGenders = async () => {
     try {
-      const response = await axios.get(apiUrls['genders']);
+      const response = await axios.get(apiUrls["genders"]);
       setGenders(response.data);
       console.log(response.data, "gender");
     } catch (error) {
-      console.error('Error fetching genders:', error);
+      console.error("Error fetching genders:", error);
     }
   };
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get(apiUrls['departments']);
+      const response = await axios.get(apiUrls["departments"]);
       setDepartments(response.data);
       console.log(response.data, "depart");
     } catch (error) {
-      console.error('Error fetching departments:', error);
+      console.error("Error fetching departments:", error);
     }
   };
 
-
   const fetchEntityData = async () => {
     try {
-      const response = await axios.get(apiUrls['entity-types']);
-      console.log(response, "ENTITY DATA")
+      const response = await axios.get(apiUrls["entity-types"]);
+      console.log(response, "ENTITY DATA");
       setEntityData(response.data);
     } catch (error) {
-      console.error('Error fetching entity data:', error);
+      console.error("Error fetching entity data:", error);
     }
   };
 
   const fetchPermissionData = async () => {
     try {
-      const response = await axios.get(apiUrls['roles_permissions']);
+      const response = await axios.get(apiUrls["roles_permissions"]);
       setPermissionData(response.data);
     } catch (error) {
-      console.error('Error fetching permission data:', error);
+      console.error("Error fetching permission data:", error);
     }
   };
   const fetchUser = async () => {
     try {
-      const response = await axios.get(apiUrls['user_create']);
+      const response = await axios.get(apiUrls["user_create"]);
       setUsers(response.data);
-      console.log(response.data, "USERS")
+      console.log(response.data, "USERS");
     } catch (error) {
-      console.error('Error fetching permission data:', error);
+      console.error("Error fetching permission data:", error);
     }
   };
 
@@ -176,25 +177,25 @@ const MyFormComponent = () => {
       if (editMode !== null) {
         await axios.put(`${apiUrl}${editMode}/`, inputData); // Edit action
         notification.success({
-          message: 'Success',
-          description: 'Data updated successfully!',
-          style: { backgroundColor: '#88C273' } // Green color
+          message: "Success",
+          description: "Data updated successfully!",
+          style: { backgroundColor: "#88C273" }, // Green color
         });
       } else {
         await axios.post(apiUrl, inputData); // Create new data
         notification.success({
-          message: 'Success',
-          description: 'Data submitted successfully!',
-          style: { backgroundColor: '#88C273' } // Green color
+          message: "Success",
+          description: "Data submitted successfully!",
+          style: { backgroundColor: "#88C273" }, // Green color
         });
       }
       fetchTableData(selectedValue);
       setEditMode(null);
       setInputData({});
     } catch (error) {
-      console.error('Error submitting data:', error);
+      console.error("Error submitting data:", error);
       notification.error({
-        message: 'Error',
+        message: "Error",
         description: `${error?.message}`,
       });
     }
@@ -206,7 +207,7 @@ const MyFormComponent = () => {
       const response = await axios.get(apiUrl);
       setTableData(response.data);
     } catch (error) {
-      console.error('Error fetching table data:', error);
+      console.error("Error fetching table data:", error);
     }
   };
 
@@ -219,7 +220,7 @@ const MyFormComponent = () => {
     } else {
       console.error(`No ${idField} found for this item.`);
     }
-    if (selectedValue === 'user_create') {
+    if (selectedValue === "user_create") {
       setInputData({
         user_role: item.user_role,
         desig_id: item.designation_name,
@@ -245,51 +246,54 @@ const MyFormComponent = () => {
         await axios.delete(`${apiUrl}${item[idField]}/`);
         fetchTableData(selectedValue);
         notification.success({
-          message: 'Success',
-          description: 'Data deleted successfully!',
-          style: { backgroundColor: '#E85C0D' }
+          message: "Success",
+          description: "Data deleted successfully!",
+          style: { backgroundColor: "#E85C0D" },
         });
       } catch (error) {
         console.error(`Error deleting ${selectedValue}:`, error);
         notification.error({
-          message: 'Error',
-          description: 'Failed to delete the data. Please try again.',
+          message: "Error",
+          description: "Failed to delete the data. Please try again.",
         });
       }
     } else {
       console.error(`No ${idField} found for this item.`);
       notification.error({
-        message: 'Error',
-        description: 'Invalid ID. Could not delete the data.',
+        message: "Error",
+        description: "Invalid ID. Could not delete the data.",
       });
     }
   };
 
-
-
   const getFieldName = () => {
     switch (selectedValue) {
-      case 'entity-types':
-        return { field1: 'entity_name', field2: 'status' };
-      case 'roles_permissions':
-        return { field1: 'permission_name', field2: 'status' };
-      case 'roles':
-        return { field1: 'role_name', field2: 'status' };
-      case 'departments':
-        return { field1: 'dept_name', field2: 'dept_status' };
-      case 'genders':
-        return { field1: 'gender_name', field2: 'gender_status' };
-      case 'title':
-        return { field1: 'title_name', field2: 'title_status' };
-      case 'designation':
-        return { field1: 'desig_name', field2: 'desig_status' };
-      case 'user_create':
-        return { field2: 'status' };
-      case 'sessions':
+      case "entity-types":
         return {
-          field1: 'start_year', field2: 'end_year',
-          extraField1: 'start_month', extraField2: 'end_month'
-
+          field1: "entity_name",
+          field2: "status",
+          extraField1: "entity_guide",
+        };
+      case "roles_permissions":
+        return { field1: "permission_name", field2: "status" };
+      case "roles":
+        return { field1: "role_name", field2: "status" };
+      case "departments":
+        return { field1: "dept_name", field2: "dept_status" };
+      case "genders":
+        return { field1: "gender_name", field2: "gender_status" };
+      case "title":
+        return { field1: "title_name", field2: "title_status" };
+      case "designation":
+        return { field1: "desig_name", field2: "desig_status" };
+      case "user_create":
+        return { field2: "status" };
+      case "sessions":
+        return {
+          field1: "start_year",
+          field2: "end_year",
+          extraField1: "start_month",
+          extraField2: "end_month",
         };
       default:
         return {};
@@ -298,32 +302,39 @@ const MyFormComponent = () => {
 
   const getIdFieldName = () => {
     switch (selectedValue) {
-      case 'entity-types':
-        return 'entity_id';
-      case 'roles_permissions':
-        return 'permission_id';
-      case 'roles':
-        return 'role_id';
-      case 'departments':
-        return 'dept_id';
-      case 'genders':
-        return 'gender_id';
-      case 'title':
-        return 'title_id';
-      case 'designation':
-        return 'desig_id';
-      case 'sessions':
-        return 'session_id';
-      case 'create_user':
-        return 'id';
-      case 'user_table':
-        return 'id';
+      case "entity-types":
+        return "entity_id";
+      case "roles_permissions":
+        return "permission_id";
+      case "roles":
+        return "role_id";
+      case "departments":
+        return "dept_id";
+      case "genders":
+        return "gender_id";
+      case "title":
+        return "title_id";
+      case "designation":
+        return "desig_id";
+      case "sessions":
+        return "session_id";
+      case "create_user":
+        return "id";
+      case "user_table":
+        return "id";
       default:
-        return '';
+        return "";
     }
   };
-  const { field1, field2, extraField, extraField1, extraField2, extraField3, field4 } = getFieldName();
-
+  const {
+    field1,
+    field2,
+    extraField,
+    extraField1,
+    extraField2,
+    extraField3,
+    field4,
+  } = getFieldName();
 
   const showDrawer = (user) => {
     setSelectedUser(user);
@@ -342,62 +353,72 @@ const MyFormComponent = () => {
   const handleEditUser = async (e) => {
     e.preventDefault();
     if (editMode) {
-      const apiUrl = apiUrls['user_table'];
+      const apiUrl = apiUrls["user_table"];
       try {
         await axios.put(`${apiUrl}${editMode}/`, inputData);
         notification.success({
-          message: 'Success',
-          description: 'User updated successfully!',
-          style: { backgroundColor: '#88C273' }
+          message: "Success",
+          description: "User updated successfully!",
+          style: { backgroundColor: "#88C273" },
         });
-        fetchTableData('user_create');
+        fetchTableData("user_create");
         setEditMode(null);
         setInputData({});
       } catch (error) {
-        console.error('Error updating user:', error);
+        console.error("Error updating user:", error);
         notification.error({
-          message: 'Error',
+          message: "Error",
           description: `Failed to update user: ${error.message}`,
         });
       }
     } else {
-      console.log('Not in edit mode');
+      console.log("Not in edit mode");
     }
   };
 
   const handleDeleteUser = async () => {
     if (userToDelete) {
-      const apiUrl = apiUrls['user_table'];
+      const apiUrl = apiUrls["user_table"];
       try {
         await axios.delete(`${apiUrl}${userToDelete}/`);
         notification.success({
-          message: 'Success',
-          description: 'User deleted successfully!',
-          style: { backgroundColor: '#88C273' }
+          message: "Success",
+          description: "User deleted successfully!",
+          style: { backgroundColor: "#88C273" },
         });
-        fetchTableData('user_create');
+        fetchTableData("user_create");
         setUserToDelete(null);
         setIsModalVisible(false);
       } catch (error) {
-        console.error('Error deleting user:', error);
+        console.error("Error deleting user:", error);
         notification.error({
-          message: 'Error',
+          message: "Error",
           description: `Failed to delete user: ${error.message}`,
         });
       }
     }
   };
 
-
-
-
   return (
     <>
-
       <div className="my-form-component">
         <div className="form-container">
-          <h2 style={{ fontSize: "15px", marginBottom: "15px", color: "black", fontWeight: "300" }}> User Configuration</h2>
-          <select value={selectedValue} onChange={handleSelectChange} className="custom-select">
+          <h2
+            style={{
+              fontSize: "15px",
+              marginBottom: "15px",
+              color: "black",
+              fontWeight: "300",
+            }}
+          >
+            {" "}
+            User Configuration
+          </h2>
+          <select
+            value={selectedValue}
+            onChange={handleSelectChange}
+            className="custom-select"
+          >
             <option value="">Select an Option</option>
             <option value="entity-types">Entity Name</option>
             <option value="roles_permissions">Roles & Permissions</option>
@@ -412,23 +433,32 @@ const MyFormComponent = () => {
           {/* onSubmit={handleSubmit} */}
           {selectedValue && (
             <form className="custom-form">
-
               {field1 && (
                 <input
                   type="text"
                   name={field1}
-                  value={inputData[field1] || ''}
+                  value={inputData[field1] || ""}
                   onChange={handleInputChange}
                   placeholder={`Enter ${field1}`}
                   className="custom-input"
                 />
               )}
 
+              {selectedValue === "entity-types" && (
+                <textarea
+                  type="text"
+                  name={extraField1}
+                  value={inputData[extraField1] || ""}
+                  onChange={handleInputChange}
+                  placeholder={`Enter ${extraField1}`}
+                  className="custom-input"
+                />
+              )}
 
-              {selectedValue === 'roles_permissions' && (
+              {selectedValue === "roles_permissions" && (
                 <select
                   name="entity"
-                  value={inputData['entity'] || ''}
+                  value={inputData["entity"] || ""}
                   onChange={handleInputChange}
                   className="custom-select"
                 >
@@ -440,10 +470,10 @@ const MyFormComponent = () => {
                   ))}
                 </select>
               )}
-              {selectedValue === 'roles' && (
+              {selectedValue === "roles" && (
                 <select
                   name="entity"
-                  value={inputData['entity'] || ''}
+                  value={inputData["entity"] || ""}
                   onChange={handleInputChange}
                   className="custom-select"
                 >
@@ -458,7 +488,7 @@ const MyFormComponent = () => {
               {field2 && (
                 <select
                   name={field2}
-                  value={inputData[field2] || ''}
+                  value={inputData[field2] || ""}
                   onChange={handleInputChange}
                   className="custom-select"
                 >
@@ -467,11 +497,11 @@ const MyFormComponent = () => {
                   <option value="inactive">Inactive</option>
                 </select>
               )}
-              {selectedValue === 'sessions' && field2 && (
+              {selectedValue === "sessions" && field2 && (
                 <>
                   <select
                     name="start_year"
-                    value={inputData.start_year || ''}
+                    value={inputData.start_year || ""}
                     onChange={handleInputChange}
                     className="custom-select"
                   >
@@ -485,12 +515,11 @@ const MyFormComponent = () => {
                     <option value="2026">2026</option>
                     <option value="2027">2027</option>
                     <option value="2028">2028</option>
-
                   </select>
 
                   <select
                     name="end_year"
-                    value={inputData.end_year || ''}
+                    value={inputData.end_year || ""}
                     onChange={handleInputChange}
                     className="custom-select"
                   >
@@ -504,12 +533,11 @@ const MyFormComponent = () => {
                     <option value="2026">2026</option>
                     <option value="2027">2027</option>
                     <option value="2028">2028</option>
-
                   </select>
 
                   <select
                     name="start_month"
-                    value={inputData.start_month || ''}
+                    value={inputData.start_month || ""}
                     onChange={handleInputChange}
                     className="custom-select"
                   >
@@ -529,7 +557,7 @@ const MyFormComponent = () => {
                   </select>
                   <select
                     name="end_month"
-                    value={inputData.end_month || ''}
+                    value={inputData.end_month || ""}
                     onChange={handleInputChange}
                     className="custom-select"
                   >
@@ -549,17 +577,17 @@ const MyFormComponent = () => {
                   </select>
                 </>
               )}
-              {selectedValue === 'user_create' && (
+              {selectedValue === "user_create" && (
                 <form onSubmit={handleSubmit} className="custom-form">
                   <div>
                     <select
                       name="user_role"
-                      value={inputData['user_role'] || ''}
+                      value={inputData["user_role"] || ""}
                       onChange={handleInputChange}
                       className="custom-select"
                     >
                       <option value="">Select Role</option>
-                      {roles.map(role => (
+                      {roles.map((role) => (
                         <option key={role.role_id} value={role.role_id}>
                           {role.role_name}
                         </option>
@@ -568,12 +596,12 @@ const MyFormComponent = () => {
 
                     <select
                       name="desig_id"
-                      value={inputData['desig_id'] || ''}
+                      value={inputData["desig_id"] || ""}
                       onChange={handleInputChange}
                       className="custom-select"
                     >
                       <option value="">Select Designation</option>
-                      {designations.map(desig => (
+                      {designations.map((desig) => (
                         <option key={desig.desig_id} value={desig.desig_id}>
                           {desig.desig_name}
                         </option>
@@ -581,32 +609,29 @@ const MyFormComponent = () => {
                     </select>
                   </div>
 
-
                   <div>
                     <select
                       name="title_id"
-                      value={inputData['title_id'] || ''}
+                      value={inputData["title_id"] || ""}
                       onChange={handleInputChange}
                       className="custom-select"
                     >
                       <option value="">Select Title</option>
-                      {titles.map(title => (
+                      {titles.map((title) => (
                         <option key={title.title_id} value={title.title_id}>
                           {title.title_name}
                         </option>
                       ))}
                     </select>
 
-
-
                     <select
                       name="department"
-                      value={inputData['department'] || ''}
+                      value={inputData["department"] || ""}
                       onChange={handleInputChange}
                       className="custom-select"
                     >
                       <option value="">Select Department</option>
-                      {departments.map(dept => (
+                      {departments.map((dept) => (
                         <option key={dept.dept_id} value={dept.dept_id}>
                           {dept.dept_name}
                         </option>
@@ -617,7 +642,7 @@ const MyFormComponent = () => {
                     <input
                       type="text"
                       name="user_name"
-                      value={inputData['user_name'] || ''}
+                      value={inputData["user_name"] || ""}
                       onChange={handleInputChange}
                       placeholder="Enter Full Name"
                       className="custom-input"
@@ -625,20 +650,18 @@ const MyFormComponent = () => {
                     <input
                       type="text"
                       name="username"
-                      value={inputData['username'] || ''}
+                      value={inputData["username"] || ""}
                       onChange={handleInputChange}
                       placeholder="Enter Unique Name"
                       className="custom-input"
                     />
                   </div>
 
-
-
                   <div>
                     <input
                       type="email"
                       name="user_email"
-                      value={inputData['user_email'] || ''}
+                      value={inputData["user_email"] || ""}
                       onChange={handleInputChange}
                       placeholder="Enter Email"
                       className="custom-input"
@@ -646,7 +669,7 @@ const MyFormComponent = () => {
                     <input
                       type="text"
                       name="emp_code"
-                      value={inputData['emp_code'] || ''}
+                      value={inputData["emp_code"] || ""}
                       onChange={handleInputChange}
                       placeholder="Enter Employee Code"
                       className="custom-input"
@@ -657,19 +680,19 @@ const MyFormComponent = () => {
                     <input
                       type="text"
                       name="user_mobile"
-                      value={inputData['user_mobile'] || ''}
+                      value={inputData["user_mobile"] || ""}
                       onChange={handleInputChange}
                       placeholder="Enter Mobile Number"
                       className="custom-input"
                     />
                     <select
                       name="gender"
-                      value={inputData['gender'] || ''}
+                      value={inputData["gender"] || ""}
                       onChange={handleInputChange}
                       className="custom-select"
                     >
                       <option value="">Select Gender</option>
-                      {genders.map(gender => (
+                      {genders.map((gender) => (
                         <option key={gender.gender_id} value={gender.gender_id}>
                           {gender.gender_name}
                         </option>
@@ -679,68 +702,190 @@ const MyFormComponent = () => {
                   <input
                     type="password"
                     name="password"
-                    value={inputData['password'] || ''}
+                    value={inputData["password"] || ""}
                     onChange={handleInputChange}
                     placeholder="Enter Password"
                     className="custom-input"
                   />
                 </form>
               )}
-              {editMode ? <> <button onClick={handleEditUser} type="submit" className="custom-btn submit-btn">
-                Update
-              </button></> : <button onClick={handleSubmit} type="submit" className="custom-btn submit-btn">
-                Submit
-              </button>}
-
+              {editMode && selectedValue === "user_create" ? (
+                <>
+                  {" "}
+                  <button
+                    onClick={handleEditUser}
+                    type="submit"
+                    className="custom-btn submit-btn"
+                  >
+                    Update
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="custom-btn submit-btn"
+                >
+                  Submit
+                </button>
+              )}
             </form>
           )}
         </div>
 
-
         <div className="table-container">
-          <h2 style={{ fontSize: "15px", marginBottom: "15px", color: "black", fontWeight: "300" }}> Configuration Table</h2>
-          {tableData.length > 0 && (
-            <table className="custom-table">
-              <thead>
+          <h2
+            style={{
+              fontSize: "15px",
+              marginBottom: "15px",
+              color: "black",
+              fontWeight: "300",
+            }}
+          >
+            {" "}
+            Configuration Table
+          </h2>
+          {loading === true ? (
+            <Spin size={40} spinning={loading} />
+          ) : (
+            <>
+              {" "}
+              {tableData.length > 0 && (
+                <table className="custom-table">
+                  <thead>
+                    <tr>
+                      {selectedValue === "user_create" && (
+                        <th
+                          style={{
+                            color: "black",
+                            fontWeight: "200",
+                            fontSize: "14px",
+                          }}
+                        >
+                          Name
+                        </th>
+                      )}
+                      <th
+                        style={{
+                          color: "black",
+                          fontWeight: "200",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {field1}
+                      </th>
+                      {field2 && (
+                        <th
+                          style={{
+                            color: "black",
+                            fontWeight: "200",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {field2}
+                        </th>
+                      )}
 
-                <tr>
-                  {selectedValue === 'user_create' && <th style={{ color: "black", fontWeight: "200", fontSize: "14px" }}>Name</th>}
-                  <th style={{ color: "black", fontWeight: "200", fontSize: "14px" }}>{field1}</th>
-                  {field2 && <th style={{ color: "black", fontWeight: "200", fontSize: "14px" }}>{field2}</th>}
+                      <th
+                        style={{
+                          color: "black",
+                          fontWeight: "200",
+                          fontSize: "14px",
+                        }}
+                      >
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableData.map((item, index) => (
+                      <tr key={index}>
+                        {selectedValue === "user_create" && (
+                          <td
+                            style={{
+                              color: "white",
+                              fontWeight: "200",
+                              fontSize: "14px",
+                            }}
+                          >
+                            {item?.user_name}
+                          </td>
+                        )}
+                        <td
+                          style={{
+                            color: "white",
+                            fontWeight: "200",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {item[field1]}
+                        </td>
+                        {field2 && (
+                          <td
+                            style={{
+                              color: "white",
+                              fontWeight: "200",
+                              fontSize: "14px",
+                            }}
+                          >
+                            {item[field2]}
+                          </td>
+                        )}
 
-                  <th style={{ color: "black", fontWeight: "200", fontSize: "14px" }}>Actions</th>
-
-                </tr>
-              </thead>
-              <tbody>
-                {tableData.map((item, index) => (
-                  <tr key={index}>
-                    {selectedValue === 'user_create' && <td style={{ color: "white", fontWeight: "200", fontSize: "14px" }}>{item?.user_name}</td>}
-                    <td style={{ color: "white", fontWeight: "200", fontSize: "14px" }} >{item[field1]}</td>
-                    {field2 && <td style={{ color: "white", fontWeight: "200", fontSize: "14px" }}>{item[field2]}</td>}
-
-
-                    {selectedValue === 'user_create' && (
-                      <td>
-                        <div style={{ color: 'green', fontSize: '20px', cursor: 'pointer', display: "flex", justifyContent: "center", alignItems: "center" }} type="primary" onClick={() => showDrawer(item)}>
-                          <IoMdEye />
-                        </div>
-                      </td>
-                    )}
-                    {selectedValue !== 'user_create' && (
-                      <td style={{ display: 'flex', gap: '10px', justifyContent: 'space-around' }}>
-                        <div style={{ color: 'green', fontSize: '20px', cursor: 'pointer' }} onClick={() => handleEdit(item)}>
-                          <FaRegEdit />
-                        </div>
-                        <div style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }} onClick={() => handleDelete(item)}>
-                          <MdDelete />
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        {selectedValue === "user_create" && (
+                          <td>
+                            <div
+                              style={{
+                                color: "green",
+                                fontSize: "20px",
+                                cursor: "pointer",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                              type="primary"
+                              onClick={() => showDrawer(item)}
+                            >
+                              <IoMdEye />
+                            </div>
+                          </td>
+                        )}
+                        {selectedValue !== "user_create" && (
+                          <td
+                            style={{
+                              display: "flex",
+                              gap: "10px",
+                              justifyContent: "space-around",
+                            }}
+                          >
+                            <div
+                              style={{
+                                color: "green",
+                                fontSize: "20px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleEdit(item)}
+                            >
+                              <FaRegEdit />
+                            </div>
+                            <div
+                              style={{
+                                color: "red",
+                                fontSize: "20px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleDelete(item)}
+                            >
+                              <MdDelete />
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -753,55 +898,120 @@ const MyFormComponent = () => {
       >
         {selectedUser && (
           <div>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Field</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Value</th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Field
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Value
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Full Name:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.user_name}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Full Name:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.user_name}
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Email:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.user_email}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Email:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.user_email}
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Mobile:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.user_mobile}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Mobile:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.user_mobile}
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Department:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.department_name}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Department:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.department_name}
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Designation:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.designation_name}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Designation:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.designation_name}
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Role:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.user_role}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Role:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.user_role}
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Employee Code:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.emp_code}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Employee Code:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.emp_code}
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><strong>Status:</strong></td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{selectedUser.status}</td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    <strong>Status:</strong>
+                  </td>
+                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    {selectedUser.status}
+                  </td>
                 </tr>
               </tbody>
             </table>
 
-            <div style={{ display: 'flex', justifyContent: 'space-around', background: "#bfbbbb", alignItems: "center", textAlign: "center" }}>
-              <div style={{ fontSize: "30px", cursor: "pointer", display: 'flex', justifyContent: 'center' }} type="button" onClick={() => handleEdit(selectedUser)}><BiSolidEdit /></div>
-              <div style={{ fontSize: "30px", cursor: "pointer", display: 'flex', justifyContent: 'center' }} type="button" onClick={() => showDeleteConfirm(selectedUser.id)}><MdDelete /></div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                background: "#bfbbbb",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "30px",
+                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                type="button"
+                onClick={() => handleEdit(selectedUser)}
+              >
+                <BiSolidEdit />
+              </div>
+              <div
+                style={{
+                  fontSize: "30px",
+                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                type="button"
+                onClick={() => showDeleteConfirm(selectedUser.id)}
+              >
+                <MdDelete />
+              </div>
             </div>
           </div>
-
         )}
       </Drawer>
       <Modal
@@ -812,11 +1022,8 @@ const MyFormComponent = () => {
       >
         <p>Are you sure you want to delete this user?</p>
       </Modal>
-
-
     </>
   );
 };
 
 export default MyFormComponent;
-
