@@ -9,7 +9,6 @@ import { IoMdEye } from "react-icons/io";
 import { BiSolidEdit } from "react-icons/bi";
 
 import "./Users.css";
-import { Loader } from "lucide-react";
 
 const MyFormComponent = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -92,6 +91,7 @@ const MyFormComponent = () => {
   };
 
   const fetchDesignations = async () => {
+    setloading(true)
     try {
       const response = await axios.get(apiUrls["designation"]);
       setDesignations(response.data);
@@ -99,9 +99,13 @@ const MyFormComponent = () => {
     } catch (error) {
       console.error("Error fetching designations:", error);
     }
+    finally{
+      setloading(false)
+    }
   };
 
   const fetchTitles = async () => {
+    setloading(true)
     try {
       const response = await axios.get(apiUrls["title"]);
       setTitles(response.data);
@@ -109,9 +113,13 @@ const MyFormComponent = () => {
     } catch (error) {
       console.error("Error fetching titles:", error);
     }
+    finally{
+      setloading(false)
+    }
   };
 
   const fetchGenders = async () => {
+    setloading(true)
     try {
       const response = await axios.get(apiUrls["genders"]);
       setGenders(response.data);
@@ -119,9 +127,13 @@ const MyFormComponent = () => {
     } catch (error) {
       console.error("Error fetching genders:", error);
     }
+    finally{
+      setloading(false)
+    }
   };
 
   const fetchDepartments = async () => {
+    setloading(true)
     try {
       const response = await axios.get(apiUrls["departments"]);
       setDepartments(response.data);
@@ -129,9 +141,13 @@ const MyFormComponent = () => {
     } catch (error) {
       console.error("Error fetching departments:", error);
     }
+    finally{
+      setloading(false)
+    }
   };
 
   const fetchEntityData = async () => {
+    setloading(true)
     try {
       const response = await axios.get(apiUrls["entity-types"]);
       console.log(response, "ENTITY DATA");
@@ -139,23 +155,34 @@ const MyFormComponent = () => {
     } catch (error) {
       console.error("Error fetching entity data:", error);
     }
+    finally{
+      setloading(false)
+    }
   };
 
   const fetchPermissionData = async () => {
+    setloading(true)
     try {
       const response = await axios.get(apiUrls["roles_permissions"]);
       setPermissionData(response.data);
     } catch (error) {
       console.error("Error fetching permission data:", error);
     }
+    finally{
+      setloading(false)
+    }
   };
   const fetchUser = async () => {
+    setloading(true)
     try {
       const response = await axios.get(apiUrls["user_create"]);
       setUsers(response.data);
       console.log(response.data, "USERS");
     } catch (error) {
       console.error("Error fetching permission data:", error);
+    }
+    finally{
+      setloading(false)
     }
   };
 
@@ -171,6 +198,7 @@ const MyFormComponent = () => {
   };
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     try {
       const apiUrl = apiUrls[selectedValue];
@@ -202,12 +230,16 @@ const MyFormComponent = () => {
   };
 
   const fetchTableData = async (value) => {
+    setloading(true)
     try {
       const apiUrl = apiUrls[value];
       const response = await axios.get(apiUrl);
       setTableData(response.data);
     } catch (error) {
       console.error("Error fetching table data:", error);
+    }
+    finally{
+      setloading(false)
     }
   };
 

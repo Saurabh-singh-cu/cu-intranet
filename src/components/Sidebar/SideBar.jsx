@@ -9,9 +9,10 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import logo from "../../assets/images/logo.png";
 import SidebarMenu from "./SidebarMenu";
+
 const routes = [
   {
-    path: "/",
+    path: "/dashboard",
     name: "Dashboard",
     icon: <FaHome />,
   },
@@ -22,13 +23,13 @@ const routes = [
   },
  
   {
-    path: "/messages",
-    name: "Messages",
+    path: "/EntityCreationForm",
+    name: "EntityCreationForm",
     icon: <MdMessage />,
   },
   {
-    path: "/analytics",
-    name: "Analytics",
+    path: "/entityTable",
+    name: "EntityTable",
     icon: <BiAnalyse />,
   },
   {

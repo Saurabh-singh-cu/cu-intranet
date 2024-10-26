@@ -84,28 +84,20 @@ const AcademicAffairsForm = () => {
   const [selectedEntity, setSelectedEntity] = useState(null);
   const [departments, setDepartments] = useState([]);
 
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prevState) => ({ ...prevState, [name]: value }));
-//   };
-  
 
-const handleInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
-    // Set both entity and type when `name` is "entity"
-    if (name === "entity") {
-      setFormData((prevState) => ({
-        ...prevState,
-        entity: value,
-        type: entityData.find((ent) => ent.entity_id === value)?.entity_name,
-      }));
-    } else {
-      setFormData((prevState) => ({ ...prevState, [name]: value }));
-    }
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
-  
 
+  const handleEntityClick = (entity) => {
+    setSelectedEntity(entity);
+    setFormData((prevState) => ({
+      ...prevState,
+      entity: entity.entity_id,
+      type: entity.entity_name,
+    }));
+  };
 
   const handleQuillChange = (value) => {
     setFormData((prevState) => ({ ...prevState, referal: value }));
@@ -297,8 +289,10 @@ const handleInputChange = (e) => {
       });
     } else {
       if (activeTab === "universityBody") {
-        setActiveTab("advisoryBoard");
-      } else if (activeTab === "advisoryBoard") {
+        setActiveTab("advisoryBoardStudent");
+      } else if (activeTab === "advisoryBoardStudent") {
+        setActiveTab("advisoryBoardFaculty");
+      } else if (activeTab === "advisoryBoardFaculty") {
         setActiveTab("acknowledgement");
       } else {
         handleSubmit({ preventDefault: () => {} });
@@ -307,10 +301,13 @@ const handleInputChange = (e) => {
   };
 
   const handleBack = () => {
-    if (activeTab === "advisoryBoard") {
+    if (activeTab === "advisoryBoardStudent") {
       setActiveTab("universityBody");
+    } else if (activeTab === "advisoryBoardFaculty") {
+      setActiveTab("advisoryBoardStudent");
     } else if (activeTab === "acknowledgement") {
-      setActiveTab("advisoryBoard");
+      setActiveTab("advisoryBoardFaculty");
+      
     }
   };
 
@@ -337,9 +334,7 @@ const handleInputChange = (e) => {
     fetchEntityData();
     fetchDepartments();
   }, []);
-  const handleEntityClick = (entity) => {
-    setSelectedEntity(entity);
-  };
+
 
   return (
     <div style={{ display: "flex" }}>
@@ -387,23 +382,23 @@ const handleInputChange = (e) => {
                   {entityData &&
                     entityData.map((entity) => (
                       <button
-                        type="button"
-                        onClick={() => handleEntityClick(entity)}
-                        className={`btn_choose_sent bg_btn_chose_3 ${
-                          formData?.entity === entity?.entity_name ? "active" : ""
-                        }`}
-                        key={entity.entity_name}
-                      >
-                        <input
-                          className="inputForm"
-                          type="radio"
-                          name="entity"
-                          value={entity?.entity_id}
-                          checked={formData?.entity === entity?.entity_name}
-                          onChange={handleInputChange}
-                        />
-                        {entity?.entity_name}
-                      </button>
+                      type="button"
+                      onClick={() => handleEntityClick(entity)}
+                      className={`btn_choose_sent bg_btn_chose_3 ${
+                        formData.entity === entity.entity_id ? "active" : ""
+                      }`}
+                      key={entity.entity_id}
+                    >
+                      <input
+                        className="inputForm"
+                        type="radio"
+                        name="entity"
+                        value={entity.entity_id}
+                        checked={formData.entity === entity.entity_id}
+                        onChange={() => handleEntityClick(entity)}
+                      />
+                      {entity.entity_name}
+                    </button>
                     ))}
                 </div>
               </div>
@@ -660,19 +655,6 @@ const handleInputChange = (e) => {
                         />
                       </div>
                       <div className="form-group">
-                        <label className="labelName" htmlFor="mobile">
-                          Faculty Mobile Number
-                        </label>
-                        <input
-                          className="inputForm"
-                          type="tel"
-                          id="mobile"
-                          name="mobile"
-                          value={formData.mobile}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      <div className="form-group">
                         <label className="labelName" htmlFor="emp_code">
                           Employee Code
                         </label>
@@ -685,6 +667,20 @@ const handleInputChange = (e) => {
                           onChange={handleInputChange}
                         />
                       </div>
+                      <div className="form-group">
+                        <label className="labelName" htmlFor="mobile">
+                          Faculty Mobile Number
+                        </label>
+                        <input
+                          className="inputForm"
+                          type="tel"
+                          id="mobile"
+                          name="mobile"
+                          value={formData.mobile}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      
                     </div>
                   </>
                 )}
@@ -982,7 +978,7 @@ const handleInputChange = (e) => {
                   className="inputForm"
                   type="text"
                   placeholder="Faculty co-advisory UID...2"
-                  name="faculty_coad_2_empcode"
+                  name="faculty_coadv_2_empcode"
                   value={formData.faculty_coadv_2_empcode}
                   onChange={handleInputChange}
                 />
@@ -998,49 +994,7 @@ const handleInputChange = (e) => {
             </div>
           )}
 
-          {/* {activeTab === "acknowledgement" && (
-            <div className="form-content-form">
-              <h4>Acknowledgement</h4>
-              <p>
-                I acknowledge that the information provided in this form is
-                accurate and complete to the best of my knowledge. I understand
-                that submitting false or misleading information may result in
-                the rejection of this proposal or other appropriate actions.
-              </p>
-              <p>Have refral ? </p>
-              <input
-                placeholder="referal"
-                type="text"
-                name="referal"
-                value={formData.referal}
-                onChange={handleInputChange}
-              />
-              <Checkbox
-                checked={acknowledgement.agreed}
-                onChange={handleAcknowledgementChange}
-              >
-                I acknowledge and agree to the above statement
-              </Checkbox>
-              <div className="captcha-container">
-                <ReCAPTCHA
-                  sitekey="6LeComoqAAAAAM7fMSrGeagGkmaDdtqdt12MzRjE"
-                  onChange={handleCaptchaChange}
-                />
-              </div>
-              <Dragger {...props}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload. Strictly prohibit from
-                  uploading company data or other sensitive files.
-                </p>
-              </Dragger>
-            </div>
-          )} */}
+
 
           {activeTab === "acknowledgement" && (
             <div className="form-content-form">
@@ -1154,11 +1108,11 @@ const handleInputChange = (e) => {
 
           {selectedEntity ? (
             <div>
-              <h2 className="h2tag">{selectedEntity?.entity_name}</h2>
-              <p className="ptag">{selectedEntity?.entity_guide}</p>
+              <h2 className="h2tag">{selectedEntity.entity_name}</h2>
+              <p className="ptag">{selectedEntity.entity_guide}</p>
             </div>
           ) : (
-            ""
+            <p>Select an entity to view details</p>
           )}
           <div className="related-questions">
             <h3>Feeling Lost ?</h3>
