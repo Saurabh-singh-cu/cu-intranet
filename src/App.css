@@ -11,6 +11,8 @@
 
 .main-container {
   display: flex;
+  margin-top: 57px;
+
 }
 
 main {
@@ -27,10 +29,15 @@ main {
 .sidebar {
   background: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
-  height: 100vh;
+  height: 91vh;
   /* overflow-y: auto; */
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   
+}
+.main-scroller{
+  margin-top: 57px;
+  height: 90vh;
+  overflow: scroll;
 }
 @media (max-width: 800px) {
   .sidebar {
@@ -348,6 +355,120 @@ main {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* Color on hover */
 }
+button{
+  display: flex;
+}
 
 
+/* second dashboiard notification centre  */
+.dive-container {
+  display: flex;
+  height: 50vh;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.left-section {
+  width: 55%;
+  padding: 20px;
+  background-color: #f0f0f0;
+  overflow-y: hidden;
+}
+
+.right-section {
+  width: 45%;
+  padding: 20px;
+  background-color: #f0f0f0;
+  overflow-y: hidden;
+}
+
+.card {
+  background-color: white;
+  /* border-radius: 8px; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.card-footer {
+  background-color: #f8f8f8;
+  padding: 10px;
+  text-align: center;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.thumbs-up-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.thumbs-up-button:hover {
+  background-color: #45a049;
+}
+
+.scrollable-cards {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.scroll-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.scroll-card-1{
+  background-color: #383837;
+  /* border-radius: 8px; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  /* padding: 15px; */
+  display: flex;
+  justify-content: space-between;
+  color: white;
+}
+
+.scroll-card h3 {
+  margin-top: 0;
+}
+
+/* Customize scrollbar */
+.scrollable-cards::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-cards::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scrollable-cards::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.scrollable-cards::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 

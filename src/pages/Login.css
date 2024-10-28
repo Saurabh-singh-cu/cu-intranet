@@ -53,7 +53,7 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #9370DB;
+  border-color: #77747e;
   box-shadow: 0 0 0 3px rgba(147, 112, 219, 0.1);
 }
 
@@ -64,7 +64,7 @@
 .submit-button {
   margin-top: 1rem;
   padding: 0.75rem;
-  background-color: #9370DB;
+  background-color: #4e4c52;
   color: white;
   border: none;
   border-radius: 0.25rem;
@@ -131,5 +131,30 @@
 
   .login-image-container {
     display: block;
+  }
+}
+
+.typewriter {
+	width: 600px;
+	white-space: nowrap;
+	overflow: hidden;
+	border-right: 4px solid #212121;
+	animation: cursor 1s step-start infinite, 
+    text 5s steps(40) alternate infinite;
+}
+
+@keyframes cursor {
+	0%, 100% { 
+    border-color: #686464; 
+ 
+  }
+}
+
+@keyframes text {
+	0% { 
+    width: 0; 
+  }
+	100% { 
+    width: 470px; 
   }
 }

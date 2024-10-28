@@ -1,120 +1,135 @@
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  position: fixed;
+  width: 100vw;
+  /* z-index: 99999; */
 
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo-cu {
+  color: #ff0000;
+}
+
+.logo-ims {
+  color: #333;
+}
+
+.search-container {
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 0 20px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.icon-search {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.user-name {
+  font-size: 14px;
+  margin-right: 10px;
+  color: #333;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
   }
-  
-  .navbar-left {
-    display: flex;
-    align-items: center;
-  }
-  
-  .menu-button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #666;
-    cursor: pointer;
-    margin-right: 15px;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .logo-cu {
-    color: #ff0000;
-  }
-  
-  .logo-ims {
-    color: #333;
-  }
-  
+
   .search-container {
-    flex-grow: 1;
-    max-width: 600px;
-    margin: 0 20px;
-    position: relative;
-  }
-  
-  .search-input {
+    order: 3;
     width: 100%;
-    padding: 10px 40px 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    font-size: 14px;
+    margin: 10px 0 0;
   }
-  
-  .icon-search {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
-  }
-  
+
   .navbar-right {
-    display: flex;
-    align-items: center;
+    margin-left: auto;
   }
-  
-  .icon-button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: #666;
-    cursor: pointer;
-    margin-left: 15px;
-  }
-  
-  .user-profile {
-    display: flex;
-    align-items: center;
-    margin-left: 15px;
-  }
-  
+
   .user-name {
-    font-size: 14px;
-    margin-right: 10px;
-    color: #333;
+    display: none;
   }
-  
-  .user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-  }
-  
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    .navbar {
-      flex-wrap: wrap;
-    }
-  
-    .search-container {
-      order: 3;
-      width: 100%;
-      margin: 10px 0 0;
-    }
-  
-    .navbar-right {
-      margin-left: auto;
-    }
-  
-    .user-name {
-      display: none;
-    }
-  }
-  
-  /* Icon fonts (you'll need to replace these with actual icon fonts or SVGs) */
-  .icon-menu::before { content: '☰'; }
-  .icon-search::before { content: '🔍'; }
-  .icon-bell::before { content: '🔔'; }
-  .icon-message::before { content: '✉'; }
-  .icon-home::before { content: '🏠'; }
-  .icon-settings::before { content: '⚙'; }
+}
+
+/* Icon fonts (you'll need to replace these with actual icon fonts or SVGs) */
+.icon-menu::before {
+  content: "☰";
+}
+.icon-search::before {
+  content: "🔍";
+}
+.icon-bell::before {
+  content: "🔔";
+}
+.icon-message::before {
+  content: "✉";
+}
+.icon-home::before {
+  content: "🏠";
+}
+.icon-settings::before {
+  content: "⚙";
+}

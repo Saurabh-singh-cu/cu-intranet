@@ -39,11 +39,11 @@ const MyCarousel = () => {
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div className='date-'>
                                 <div style={{ fontSize: "30px", color: "#0D92F4", fontWeight: "bold", fontFamily: "sans-serif" }}>15</div>
-                                <div style={{ fontWeight: "bold" }}>OCT</div>
+                                <div style={{ fontWeight: "bold", color: "white" }}>Nov</div>
                             </div>
                             <div style={{ marginLeft: "40px" }} className='message-'>
-                                <div style={{ color: "#000", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
-                                <div style={{ fontSize: "14px", color: "grey" }}>Next gen design socity</div>
+                            <div style={{ color: "#fff", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
+                            <div style={{ fontSize: "14px", color: "#ffee00" }}>Next gen design socity</div>
                             </div>
                         </div>
 
@@ -56,12 +56,12 @@ const MyCarousel = () => {
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div className='date-'>
-                                <div style={{ fontSize: "30px", color: "#0D92F4", fontWeight: "bold", fontFamily: "sans-serif" }}>15</div>
-                                <div style={{ fontWeight: "bold" }}>OCT</div>
+                                <div style={{ fontSize: "30px", color: "#0D92F4", fontWeight: "bold", fontFamily: "sans-serif" }}>22</div>
+                                <div style={{ fontWeight: "bold", color: "white" }}>DEC</div>
                             </div>
                             <div style={{ marginLeft: "40px" }} className='message-'>
-                                <div style={{ color: "#000", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
-                                <div style={{ fontSize: "14px", color: "grey" }}>Next gen design socity</div>
+                            <div style={{ color: "#fff", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
+                            <div style={{ fontSize: "14px", color: "#ffee00" }}>Next gen design socity</div>
                             </div>
                         </div>
 
@@ -74,12 +74,12 @@ const MyCarousel = () => {
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div className='date-'>
-                                <div style={{ fontSize: "30px", color: "#0D92F4", fontWeight: "bold", fontFamily: "sans-serif" }}>15</div>
-                                <div style={{ fontWeight: "bold" }}>OCT</div>
+                                <div style={{ fontSize: "30px", color: "#0D92F4", fontWeight: "bold", fontFamily: "sans-serif" }}>30</div>
+                                <div style={{ fontWeight: "bold", color: "white" }}>DEC</div>
                             </div>
                             <div style={{ marginLeft: "40px" }} className='message-'>
-                                <div style={{ color: "#000", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
-                                <div style={{ fontSize: "14px", color: "grey" }}>Next gen design socity</div>
+                            <div style={{ color: "#fff", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
+                            <div style={{ fontSize: "14px", color: "#ffee00" }}>Next gen design socity</div>
                             </div>
                         </div>
 
@@ -93,11 +93,11 @@ const MyCarousel = () => {
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div className='date-'>
                                 <div style={{ fontSize: "30px", color: "#0D92F4", fontWeight: "bold", fontFamily: "sans-serif" }}>15</div>
-                                <div style={{ fontWeight: "bold" }}>OCT</div>
+                                <div style={{ fontWeight: "bold", color: "white" }}>OCT</div>
                             </div>
                             <div style={{ marginLeft: "40px" }} className='message-'>
-                                <div style={{ color: "#000", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
-                                <div style={{ fontSize: "14px", color: "grey" }}>Next gen design socity</div>
+                            <div style={{ color: "#fff", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
+                            <div style={{ fontSize: "14px", color: "#ffee00" }}>Next gen design socity</div>
                             </div>
                         </div>
 
@@ -129,11 +129,11 @@ const MyCarousel = () => {
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div className='date-'>
                                 <div style={{ fontSize: "30px", color: "#0D92F4", fontWeight: "bold", fontFamily: "sans-serif" }}>15</div>
-                                <div style={{ fontWeight: "bold" }}>OCT</div>
+                                <div style={{ fontWeight: "bold", color: "white" }}>OCT</div>
                             </div>
                             <div style={{ marginLeft: "40px" }} className='message-'>
-                                <div style={{ color: "#000", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
-                                <div style={{ fontSize: "14px", color: "grey" }}>Next gen design socity</div>
+                            <div style={{ color: "#fff", fontSize: "20px", letterSpacing: "0.4px" }}>take-a-thon</div>
+                            <div style={{ fontSize: "14px", color: "#ffee00" }}>Next gen design socity</div>
                             </div>
                         </div>
 

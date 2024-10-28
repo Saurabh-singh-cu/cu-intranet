@@ -20,7 +20,7 @@ const AcademicAffairsForm = () => {
     proposed_by: "",
     proposer_name: "",
     emp_code: "",
-    student_id: "",
+    emp_code: "",
     proposer_email: "",
     mobile: "",
     entity_nature: "",
@@ -169,7 +169,7 @@ const AcademicAffairsForm = () => {
       proposed_by: "",
       proposer_name: "",
       emp_code: "",
-      student_id: "",
+      emp_code: "",
       proposer_email: "",
       mobile: "",
       entity_nature: "",
@@ -233,7 +233,7 @@ const AcademicAffairsForm = () => {
       errors.push("Please enter the Department of proposer");
     if (formData.proposed_by === "STUDENT") {
       if (!formData.proposer_name) errors.push("Please enter the Student Name");
-      if (!formData.student_id) errors.push("Please enter the Student ID");
+      if (!formData.emp_code) errors.push("Please enter the Student ID");
       if (!formData.mobile)
         errors.push("Please enter the Student Mobile Number");
     } else if (formData.proposed_by === "FACULTY") {
@@ -337,7 +337,7 @@ const AcademicAffairsForm = () => {
 
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", marginTop:"57px" }}>
       <div className="form-container-form">
         <div className="form-header">
           <img src={cuimg} alt="University Logo" className="university-logo" />
@@ -590,15 +590,15 @@ const AcademicAffairsForm = () => {
                         />
                       </div>
                       <div className="form-group">
-                        <label className="labelName" htmlFor="student_id">
+                        <label className="labelName" htmlFor="emp_code">
                           Student UID
                         </label>
                         <input
                           className="inputForm"
                           type="text"
-                          id="student_id"
-                          name="student_id"
-                          value={formData.student_id}
+                          id="emp_code"
+                          name="emp_code"
+                          value={formData.emp_code}
                           onChange={handleInputChange}
                         />
                       </div>
@@ -1034,7 +1034,7 @@ const AcademicAffairsForm = () => {
                   onChange={(value) =>
                     setAcknowledgement((prev) => ({
                       ...prev,
-                      captchaValue: value,
+                      agreed: value,
                     }))
                   }
                 />
