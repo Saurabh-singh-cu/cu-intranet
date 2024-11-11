@@ -3,9 +3,15 @@ import { FaBell } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
 import './NavBar.css';
+import { useNavigate } from 'react-router-dom';
 
-function NavBar() {
+const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const redirectLogin = () => {
+      navigate("/login")
+  }
 
   return (
     <nav className="navbar">
@@ -36,7 +42,7 @@ function NavBar() {
          <span><MdMessage /></span>
         </button>
         <div className="user-profile">
-          <span className="user-name">Saurabh</span>
+          <span style={{cursor:"pointer"}} onClick={redirectLogin} className="user-name">Login</span>
          
         </div>
       

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, notification, Spin } from "antd";
+import { message, Modal, notification, Spin, Switch } from "antd";
 import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -27,19 +27,25 @@ const MyFormComponent = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisibleSession, setIsModalVisibleSession] = useState(false);
   const [loading, setloading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [switchState, setSwitchState] = useState(false);
 
   const apiUrls = {
-    "entity-types": "http://172.17.2.77:8080/intranetapp/entity-types/",
-    roles_permissions: "http://172.17.2.77:8080/intranetapp/roles_permissions/",
-    roles: "http://172.17.2.77:8080/intranetapp/roles/",
-    departments: "http://172.17.2.77:8080/intranetapp/departments/",
-    sessions: "http://172.17.2.77:8080/intranetapp/sessions/",
-    genders: "http://172.17.2.77:8080/intranetapp/genders/",
-    title: "http://172.17.2.77:8080/intranetapp/title/",
-    designation: "http://172.17.2.77:8080/intranetapp/designation/",
-    user_create: "http://172.17.2.77:8080/intranetapp/user_create/",
-    user_table: "http://172.17.2.77:8080/intranetapp/user_table/",
+    "entity-types": "http://172.17.2.176:8080/intranetapp/entity-types/",
+    roles_permissions:
+      "http://172.17.2.176:8080/intranetapp/roles_permissions/",
+    roles: "http://172.17.2.176:8080/intranetapp/roles/",
+    departments: "http://172.17.2.176:8080/intranetapp/departments/",
+    sessions: "http://172.17.2.176:8080/intranetapp/sessions/",
+    genders: "http://172.17.2.176:8080/intranetapp/genders/",
+    title: "http://172.17.2.176:8080/intranetapp/title/",
+    designation: "http://172.17.2.176:8080/intranetapp/designation/",
+    user_create: "http://172.17.2.176:8080/intranetapp/user_create/",
+    user_table: "http://172.17.2.176:8080/intranetapp/user_table/",
+    current_session: "http://172.17.2.176:8080/intranetapp/current_session/",
   };
 
   useEffect(() => {
@@ -80,109 +86,99 @@ const MyFormComponent = () => {
       const response = await axios.get(apiUrls["roles"]);
       setRoles(response.data);
       console.log(response.data, "role");
-     
     } catch (error) {
-     
       console.error("Error fetching roles:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
   const fetchDesignations = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response = await axios.get(apiUrls["designation"]);
       setDesignations(response.data);
       console.log(response.data, "desig");
     } catch (error) {
       console.error("Error fetching designations:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
   const fetchTitles = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response = await axios.get(apiUrls["title"]);
       setTitles(response.data);
       console.log(response.data, "title");
     } catch (error) {
       console.error("Error fetching titles:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
   const fetchGenders = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response = await axios.get(apiUrls["genders"]);
       setGenders(response.data);
       console.log(response.data, "gender");
     } catch (error) {
       console.error("Error fetching genders:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
   const fetchDepartments = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response = await axios.get(apiUrls["departments"]);
       setDepartments(response.data);
       console.log(response.data, "depart");
     } catch (error) {
       console.error("Error fetching departments:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
   const fetchEntityData = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response = await axios.get(apiUrls["entity-types"]);
       console.log(response, "ENTITY DATA");
       setEntityData(response.data);
     } catch (error) {
       console.error("Error fetching entity data:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
   const fetchPermissionData = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response = await axios.get(apiUrls["roles_permissions"]);
       setPermissionData(response.data);
     } catch (error) {
       console.error("Error fetching permission data:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
   const fetchUser = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response = await axios.get(apiUrls["user_create"]);
       setUsers(response.data);
       console.log(response.data, "USERS");
     } catch (error) {
       console.error("Error fetching permission data:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
@@ -198,7 +194,6 @@ const MyFormComponent = () => {
   };
 
   const handleSubmit = async (e) => {
-    
     e.preventDefault();
     try {
       const apiUrl = apiUrls[selectedValue];
@@ -230,16 +225,15 @@ const MyFormComponent = () => {
   };
 
   const fetchTableData = async (value) => {
-    setloading(true)
+    setloading(true);
     try {
       const apiUrl = apiUrls[value];
       const response = await axios.get(apiUrl);
       setTableData(response.data);
     } catch (error) {
       console.error("Error fetching table data:", error);
-    }
-    finally{
-      setloading(false)
+    } finally {
+      setloading(false);
     }
   };
 
@@ -429,6 +423,49 @@ const MyFormComponent = () => {
         });
       }
     }
+  };
+
+  const handleSwitchClick = (item) => {
+    setSelectedItem(item);
+    setIsModalVisibleSession(true);
+    setIsModalVisibleSession(true)
+  };
+
+  const openNotification = (type, message, description) => {
+    notification[type]({
+      message,
+      description,
+      duration: 3,
+    });
+  };
+
+  const confirmActivation = async () => {
+    if (selectedItem) {
+      try {
+        const data = {
+          session_code: selectedItem?.session_code,
+        };
+        const config = {
+          method: "POST",
+          url: "http://172.17.2.176:8080/intranetapp/current_session/",
+          data,
+        };
+        const response = await axios(config);
+        
+        openNotification("success", response?.data?.message)
+      } catch (error) {
+        console.error("Error activating session:", error);
+      } finally {
+        setIsModalVisibleSession(false);
+        setSelectedItem(null);
+      }
+    }
+  };
+
+  const handleCancelActivation = () => {
+   
+    setIsModalVisibleSession(false);
+    setSwitchState(false);
   };
 
   return (
@@ -827,6 +864,17 @@ const MyFormComponent = () => {
                       >
                         Actions
                       </th>
+                      {selectedValue === "sessions" ? (
+                        <th
+                          style={{
+                            color: "black",
+                            fontWeight: "200",
+                            fontSize: "14px",
+                          }}
+                        >
+                          Status
+                        </th>
+                      ) : null}
                     </tr>
                   </thead>
                   <tbody>
@@ -863,6 +911,24 @@ const MyFormComponent = () => {
                             {item[field2]}
                           </td>
                         )}
+                        {selectedValue === "sessions" ? (
+                          <td>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Switch
+                                type="checkbox"
+                                checked={item.isActive}
+                                onChange={() => handleSwitchClick(item)}
+                                checkedChildren="ON"
+                                unCheckedChildren="OFF"
+                              />
+                            </div>
+                          </td>
+                        ) : null}
 
                         {selectedValue === "user_create" && (
                           <td>
@@ -1053,6 +1119,16 @@ const MyFormComponent = () => {
         onCancel={() => setIsModalVisible(false)}
       >
         <p>Are you sure you want to delete this user?</p>
+      </Modal>
+      {modalVisible && <div className="modal"></div>}
+      <Modal
+        title="Confirm Activation"
+        visible={isModalVisibleSession}
+        onOk={confirmActivation}
+        onCancel={handleCancelActivation}
+      >
+        <p>Are you sure you want to make this session active?</p>
+       
       </Modal>
     </>
   );

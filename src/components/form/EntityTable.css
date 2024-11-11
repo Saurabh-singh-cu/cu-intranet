@@ -207,6 +207,12 @@
     align-items: center;
     margin-bottom: 20px;
   }
+  .status-cell {
+    cursor: pointer;
+    color: #007bff; /* Highlighted color for editable cells */
+    font-weight: bold;
+  }
+  
   
   .header-buttons {
     display: flex;
@@ -267,3 +273,38 @@
   .email-input-container input:focus {
     box-shadow: none;
   }
+
+
+
+
+
+
+
+
+  /* drawer css  */
+  /* Style the Drawer */
+.ant-drawer-header {
+  background-color: #f0f2f5;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ant-drawer-body {
+  padding: 20px;
+}
+
+/* Style the Form Items */
+.ant-form-item {
+  margin-bottom: 16px;
+}
+
+/* Highlight specific sections */
+.entity-section-header {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #555;
+}

@@ -12,7 +12,7 @@ import "react-quill/dist/quill.snow.css";
 
 const AcademicAffairsForm = () => {
   const [activeTab, setActiveTab] = useState("universityBody");
-
+  const [currentSession, setCurrentSession] = useState([]);
   const [formData, setFormData] = useState({
     entity: "",
     proposed_name: "",
@@ -24,7 +24,7 @@ const AcademicAffairsForm = () => {
     proposer_email: "",
     mobile: "",
     entity_nature: "",
-    session_code: "042020-082021",
+    session_code: "",
     student_sec_1_name: "",
     student_sec_1_email: "",
     student_sec_1_uid: "",
@@ -84,7 +84,6 @@ const AcademicAffairsForm = () => {
   const [selectedEntity, setSelectedEntity] = useState(null);
   const [departments, setDepartments] = useState([]);
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -117,20 +116,20 @@ const AcademicAffairsForm = () => {
       });
       return;
     }
-    if (!acknowledgement.captchaValue) {
-      notification.error({
-        message: "CAPTCHA Required",
-        description: "Please complete the CAPTCHA verification.",
-      });
-      return;
-    }
+    // if (!acknowledgement.captchaValue) {
+    //   notification.error({
+    //     message: "CAPTCHA Required",
+    //     description: "Please complete the CAPTCHA verification.",
+    //   });
+    //   return;
+    // }
 
     setIsLoading(true);
     setIsModalVisible(true);
 
     try {
       const response = await axios.post(
-        "http://172.17.2.77:8080/intranetapp/entity-requests/",
+        "http://172.17.2.176:8080/intranetapp/entity-requests/",
         formData
       );
 
@@ -307,14 +306,13 @@ const AcademicAffairsForm = () => {
       setActiveTab("advisoryBoardStudent");
     } else if (activeTab === "acknowledgement") {
       setActiveTab("advisoryBoardFaculty");
-      
     }
   };
 
   useEffect(() => {
     const fetchEntityData = async () => {
       const response = await fetch(
-        "http://172.17.2.77:8080/intranetapp/entity-types/"
+        "http://172.17.2.176:8080/intranetapp/entity-types/"
       );
       const data = await response.json();
       setEntityData(data);
@@ -322,7 +320,7 @@ const AcademicAffairsForm = () => {
     const fetchDepartments = async () => {
       try {
         const response = await axios.get(
-          "http://172.17.2.77:8080/intranetapp/departments/"
+          "http://172.17.2.176:8080/intranetapp/departments/"
         );
         setDepartments(response.data);
         console.log(response.data, "depart");
@@ -333,11 +331,31 @@ const AcademicAffairsForm = () => {
 
     fetchEntityData();
     fetchDepartments();
+  
   }, []);
 
+  const getCurrentSession = async () => {
+    const response = await axios.get(
+      "http://172.17.2.176:8080/intranetapp/current_session/"
+    );
+    setCurrentSession(response?.data?.session_code);
+  };
+
+  useEffect(() => {
+    getCurrentSession();
+  }, []);
+
+  useEffect(() => {
+    if (currentSession) {
+      setFormData((prevState) => ({
+        ...prevState,
+        session_code: currentSession,
+      }));
+    }
+  }, [currentSession]);
 
   return (
-    <div style={{ display: "flex", marginTop:"57px" }}>
+    <div style={{ display: "flex", marginTop: "57px" }}>
       <div className="form-container-form">
         <div className="form-header">
           <img src={cuimg} alt="University Logo" className="university-logo" />
@@ -382,23 +400,23 @@ const AcademicAffairsForm = () => {
                   {entityData &&
                     entityData.map((entity) => (
                       <button
-                      type="button"
-                      onClick={() => handleEntityClick(entity)}
-                      className={`btn_choose_sent bg_btn_chose_3 ${
-                        formData.entity === entity.entity_id ? "active" : ""
-                      }`}
-                      key={entity.entity_id}
-                    >
-                      <input
-                        className="inputForm"
-                        type="radio"
-                        name="entity"
-                        value={entity.entity_id}
-                        checked={formData.entity === entity.entity_id}
-                        onChange={() => handleEntityClick(entity)}
-                      />
-                      {entity.entity_name}
-                    </button>
+                        type="button"
+                        onClick={() => handleEntityClick(entity)}
+                        className={`btn_choose_sent bg_btn_chose_3 ${
+                          formData.entity === entity.entity_id ? "active" : ""
+                        }`}
+                        key={entity.entity_id}
+                      >
+                        <input
+                          className="inputForm"
+                          type="radio"
+                          name="entity"
+                          value={entity.entity_id}
+                          checked={formData.entity === entity.entity_id}
+                          onChange={() => handleEntityClick(entity)}
+                        />
+                        {entity.entity_name}
+                      </button>
                     ))}
                 </div>
               </div>
@@ -680,7 +698,6 @@ const AcademicAffairsForm = () => {
                           onChange={handleInputChange}
                         />
                       </div>
-                      
                     </div>
                   </>
                 )}
@@ -993,8 +1010,6 @@ const AcademicAffairsForm = () => {
               </div>
             </div>
           )}
-
-
 
           {activeTab === "acknowledgement" && (
             <div className="form-content-form">

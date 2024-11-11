@@ -5,7 +5,7 @@ import "./Login.css";
 import { notification } from "antd";
 import logo from "../assets/images/logo.png"
 
-const Login = () => {
+const Login = ({onLogin}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,20 +27,20 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!recaptchaValue) {
-    //   openNotification(
-    //     "warning",
-    //     "reCAPTCHA Required",
-    //     "Please complete the reCAPTCHA verification."
-    //   );
-    //   return;
-    // }
+    if (!recaptchaValue) {
+      openNotification(
+        "warning",
+        "reCAPTCHA Required",
+        "Please complete the reCAPTCHA verification."
+      );
+      return;
+    }
 
     setIsLoading(true);
 
     try {
       const response = await fetch(
-        "http://172.17.2.77:8080/intranetapp/login/",
+        "http://172.17.2.176:8080/intranetapp/login/",
         {
           method: "POST",
           headers: {
@@ -68,8 +68,9 @@ const Login = () => {
         "Login Successful",
         "Redirecting to dashboard..."
       );
+      onLogin()
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/");
       }, 2000);
 
       console.log("Login successful", data);
